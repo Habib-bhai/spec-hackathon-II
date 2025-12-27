@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* ==========================================================================
+   * LANDING PAGE COLOR PALETTE
+   * Feature: 002-engaging-landing-pages
+   * Designed via ui-ux skill - Coral Sunset + Slate Night theme
+   * ========================================================================== */
+
+  /* Primary Colors - Coral Sunset */
+  --landing-primary: 12 85% 62%;
+  --landing-primary-foreground: 0 0% 100%;
+  --landing-primary-hover: 12 85% 55%;
+  --landing-primary-muted: 12 60% 70%;
+
+  /* Background Colors - Deep Slate */
+  --landing-bg: 220 25% 6%;
+  --landing-bg-secondary: 220 20% 10%;
+  --landing-bg-tertiary: 220 15% 14%;
+
+  /* Accent Colors - Golden Amber */
+  --landing-accent: 32 95% 58%;
+  --landing-accent-foreground: 220 25% 6%;
+  --landing-accent-muted: 32 70% 65%;
+
+  /* Secondary Colors - Deep Indigo */
+  --landing-secondary: 250 60% 35%;
+  --landing-secondary-foreground: 250 10% 95%;
+  --landing-secondary-muted: 250 40% 45%;
+
+  /* Text Colors */
+  --landing-text: 220 10% 95%;
+  --landing-text-muted: 220 10% 70%;
+  --landing-text-subtle: 220 10% 50%;
+
+  /* Border Colors */
+  --landing-border: 220 15% 20%;
+  --landing-border-hover: 220 15% 30%;
+  --landing-border-focus: 12 85% 62%;
+
+  /* Surface Colors */
+  --landing-card: 220 20% 10%;
+  --landing-card-hover: 220 20% 12%;
+  --landing-card-active: 220 20% 14%;
+
+  /* Glass Morphism */
+  --landing-glass-bg: 220 25% 6% / 0.8;
+  --landing-glass-border: 220 15% 30% / 0.3;
+  --landing-glass-blur: 12px;
+
+  /* Shadow Colors */
+  --landing-shadow-sm: 0 2px 4px -1px rgb(0 0 0 / 0.2);
+  --landing-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+  --landing-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+  --landing-shadow-glow: 0 0 20px -5px hsl(var(--landing-primary) / 0.5);
+  --landing-shadow-accent-glow: 0 0 30px -10px hsl(var(--landing-accent) / 0.4);
+
+  /* Ring Colors */
+  --landing-ring: 12 85% 62%;
+  --landing-ring-offset: 220 25% 6%;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Landing Page Theme Integration */
+  --color-landing-primary: hsl(var(--landing-primary));
+  --color-landing-bg: hsl(var(--landing-bg));
+  --color-landing-accent: hsl(var(--landing-accent));
+  --color-landing-secondary: hsl(var(--landing-secondary));
+  --color-landing-text: hsl(var(--landing-text));
+  --color-landing-card: hsl(var(--landing-card));
+  --color-landing-border: hsl(var(--landing-border));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* ==========================================================================
+ * REDUCED MOTION SUPPORT
+ * Accessibility: Respect user's motion preferences
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ==========================================================================
+ * LANDING PAGE BASE STYLES
+ * Applied to landing pages (home, about)
+ * ========================================================================== */
+.landing-page {
+  background: hsl(var(--landing-bg));
+  color: hsl(var(--landing-text));
+  min-height: 100vh;
+}
+
+/* Smooth scrolling for landing pages */
+.landing-page {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page {
+    scroll-behavior: auto;
+  }
+}

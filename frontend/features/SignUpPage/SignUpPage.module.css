@@ -1,0 +1,515 @@
+/* SignUpPage Styles */
+/* Creative, out-of-the-box design matching SignInPage aesthetic */
+
+/* Theme Colors - Coral sunset + Deep charcoal palette */
+:global(:root) {
+  --auth-background: 250 20% 7%;
+  --auth-foreground: 250 10% 95%;
+  --auth-primary: 15 85% 60%;
+  --auth-primary-hover: 15 90% 65%;
+  --auth-secondary: 250 60% 35%;
+  --auth-muted: 250 10% 15%;
+  --auth-card: 250 20% 10%;
+  --auth-border: 250 15% 20%;
+  --auth-accent: 35 90% 55%;
+  --auth-error: 5 85% 60%;
+  --auth-validation: 45 90% 55%;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: hsl(var(--auth-background));
+}
+
+/* Background with animated gradient */
+.background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 30% 40%,
+      hsla(var(--auth-accent) / 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 20%,
+      hsla(var(--auth-primary) / 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      hsla(var(--auth-secondary) / 0.06) 0%,
+      transparent 50%
+    );
+  animation: backgroundShift 25s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes backgroundShift {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+}
+
+/* Spotlight effect */
+.spotlight {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 0%,
+    transparent 40%,
+    hsl(var(--auth-background) / 0.8) 100%
+  );
+  pointer-events: none;
+  animation: spotlightFloat 18s ease-in-out infinite reverse;
+}
+
+@keyframes spotlightFloat {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-25px, 25px);
+  }
+}
+
+/* Meteors effect */
+.meteors::before,
+.meteors::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(var(--auth-accent) / 0.5),
+    transparent
+  );
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.meteors::before {
+  top: -100px;
+  left: 30%;
+  animation: meteor 9s linear infinite;
+  animation-delay: 1s;
+}
+
+.meteors::after {
+  top: -100px;
+  left: 75%;
+  animation: meteor 11s linear infinite;
+  animation-delay: 4s;
+}
+
+@keyframes meteor {
+  0% {
+    transform: translateY(0) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(150vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  padding: 1.5rem;
+  animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  position: relative;
+  background: hsl(var(--auth-card));
+  border: 1px solid hsl(var(--auth-border));
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  box-shadow:
+    0 4px 6px -1px hsl(var(--auth-background) / 0.3),
+    0 2px 4px -2px hsl(var(--auth-background) / 0.2),
+    0 0 0 1px hsla(var(--auth-accent) / 0.1);
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--auth-accent)),
+    hsl(var(--auth-primary)),
+    hsl(var(--auth-accent)),
+    transparent
+  );
+  animation: shimmer 3.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.titleWrapper {
+  animation: fadeInDown 500ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--auth-foreground));
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: hsl(var(--auth-muted));
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeIn 400ms ease-out 300ms both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--auth-foreground));
+  transition: color 200ms ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  color: hsl(var(--auth-primary));
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: hsl(var(--auth-foreground));
+  background: hsl(var(--auth-background));
+  border: 1px solid hsl(var(--auth-border));
+  border-radius: 0.75rem;
+  outline: none;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 150ms ease;
+}
+
+.input::placeholder {
+  color: hsl(var(--auth-muted) / 0.6);
+}
+
+.input:hover:not(:disabled) {
+  border-color: hsl(var(--auth-border) / 1.5);
+}
+
+.input:focus:not(:disabled) {
+  border-color: hsl(var(--auth-accent));
+  box-shadow:
+    0 0 0 3px hsla(var(--auth-accent) / 0.1),
+    0 0 20px -3px hsla(var(--auth-accent) / 0.3);
+  transform: translateY(-1px);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hint {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: hsl(var(--auth-muted));
+  margin: -0.25rem 0 0 0;
+}
+
+.validationError {
+  padding: 0.75rem 1rem;
+  background: hsla(var(--auth-validation) / 0.1);
+  border: 1px solid hsla(var(--auth-validation) / 0.2);
+  border-radius: 0.5rem;
+  color: hsl(var(--auth-validation));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.error {
+  padding: 0.75rem 1rem;
+  background: hsla(var(--auth-error) / 0.1);
+  border: 1px solid hsla(var(--auth-error) / 0.2);
+  border-radius: 0.5rem;
+  color: hsl(var(--auth-error));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.button {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(var(--auth-background));
+  background: hsl(var(--auth-primary));
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 150ms ease,
+    box-shadow 200ms ease;
+  box-shadow:
+    0 4px 6px -1px hsl(var(--auth-primary) / 0.4),
+    0 2px 4px -2px hsl(var(--auth-primary) / 0.3);
+}
+
+.button:hover:not(:disabled) {
+  background: hsl(var(--auth-primary-hover));
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 12px -2px hsl(var(--auth-primary) / 0.5),
+    0 4px 6px -2px hsl(var(--auth-primary) / 0.4);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    hsla(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 600ms ease;
+}
+
+.button:hover::before {
+  transform: translateX(100%);
+}
+
+.loadingText {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--auth-border));
+  animation: fadeIn 400ms ease-out 450ms both;
+}
+
+.footerText {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: hsl(var(--auth-muted));
+  margin: 0;
+}
+
+.footerLink {
+  font-weight: 600;
+  color: hsl(var(--auth-primary));
+  text-decoration: none;
+  transition:
+    color 200ms ease,
+    text-decoration 200ms ease;
+}
+
+.footerLink:hover {
+  color: hsl(var(--auth-primary-hover));
+  text-decoration: underline;
+}
+
+.footerLink:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .contentWrapper {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem;
+  }
+
+  .input {
+    font-size: 0.9375rem;
+  }
+
+  .button {
+    font-size: 0.9375rem;
+    padding: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .background,
+  .spotlight,
+  .meteors::before,
+  .meteors::after,
+  .card::before,
+  .titleWrapper,
+  .form,
+  .contentWrapper,
+  .button::before,
+  .footer {
+    animation: none;
+  }
+
+  .button:hover {
+    transform: none;
+  }
+
+  .input:focus {
+    transform: none;
+  }
+}

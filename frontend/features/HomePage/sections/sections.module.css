@@ -1,0 +1,664 @@
+/**
+ * HomePage Sections Shared Styles
+ * Feature: 002-engaging-landing-pages
+ *
+ * Styles for FeaturesSection, StatsSection, TestimonialsSection, and CTASection.
+ * Designed via ui-ux skill with constellation pattern, counter reveal, carousel depth, aurora glow.
+ */
+
+/* ==========================================================================
+ * SHARED SECTION STYLES
+ * ========================================================================== */
+.sectionContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visible .sectionHeader {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: hsl(var(--landing-text));
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: hsl(var(--landing-text-muted));
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+ * FEATURES SECTION - Constellation Pattern
+ * ========================================================================== */
+.featuresSection {
+  position: relative;
+  padding: 8rem 0;
+  background: hsl(var(--landing-bg));
+  overflow: hidden;
+}
+
+/* Constellation Background */
+.constellationBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.visible .constellationBg {
+  opacity: 1;
+}
+
+.constellationSvg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.constellationLine {
+  stroke: hsl(var(--landing-primary) / 0.15);
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 2s ease;
+}
+
+.visible .constellationLine {
+  stroke-dashoffset: 0;
+}
+
+.constellationNode {
+  fill: hsl(var(--landing-primary) / 0.3);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.visible .constellationNode {
+  opacity: 1;
+  animation: nodePulse 3s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+}
+
+/* Features Grid */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  padding: 2rem;
+  background: hsl(var(--landing-card));
+  border: 1px solid hsl(var(--landing-border));
+  border-radius: 16px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.visible .featureCard {
+  opacity: 1;
+  transform: translateY(0);
+  animation: cardReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.featureCard:hover {
+  box-shadow: var(--landing-shadow-lg);
+  border-color: hsl(var(--landing-border-hover));
+}
+
+.featureIconWrapper {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--landing-primary) / 0.15),
+    hsl(var(--landing-accent) / 0.1)
+  );
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.featureIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-color, hsl(var(--landing-primary)));
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--landing-text));
+  margin-bottom: 0.75rem;
+}
+
+.featureDescription {
+  font-size: 0.95rem;
+  color: hsl(var(--landing-text-muted));
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+ * STATS SECTION - Counter Reveal
+ * ========================================================================== */
+.statsSection {
+  padding: 6rem 0;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--landing-bg-secondary)) 0%,
+    hsl(var(--landing-bg)) 100%
+  );
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  text-align: center;
+  padding: 2rem 1rem;
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visible .statCard {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.statValue {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: hsl(var(--landing-primary));
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.statSuffix {
+  color: hsl(var(--landing-accent));
+}
+
+.statLabel {
+  font-size: 0.95rem;
+  color: hsl(var(--landing-text-muted));
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ==========================================================================
+ * TESTIMONIALS SECTION - Carousel Depth
+ * ========================================================================== */
+.testimonialsSection {
+  padding: 8rem 0;
+  background: hsl(var(--landing-bg));
+  overflow: hidden;
+}
+
+.carouselWrapper {
+  perspective: 1000px;
+  padding: 2rem 0;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px;
+  transform-style: preserve-3d;
+}
+
+.testimonialCard {
+  position: absolute;
+  width: 100%;
+  max-width: 500px;
+  padding: 2.5rem;
+  background: hsl(var(--landing-card));
+  border: 1px solid hsl(var(--landing-border));
+  border-radius: 20px;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.testimonialCard.active {
+  box-shadow: var(--landing-shadow-lg);
+}
+
+.testimonialQuote {
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: hsl(var(--landing-text));
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.quoteIcon {
+  position: absolute;
+  left: 0;
+  top: -0.25rem;
+  font-size: 3rem;
+  color: hsl(var(--landing-primary) / 0.3);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.authorAvatar {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--landing-primary)),
+    hsl(var(--landing-accent))
+  );
+  color: white;
+  font-weight: 600;
+  font-size: 1.25rem;
+  border-radius: 50%;
+}
+
+.authorName {
+  font-weight: 600;
+  color: hsl(var(--landing-text));
+}
+
+.authorRole {
+  font-size: 0.875rem;
+  color: hsl(var(--landing-text-muted));
+}
+
+/* Carousel Navigation */
+.carouselNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.carouselButton {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--landing-card));
+  border: 1px solid hsl(var(--landing-border));
+  border-radius: 50%;
+  color: hsl(var(--landing-text));
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.carouselButton:hover {
+  background: hsl(var(--landing-card-hover));
+  border-color: hsl(var(--landing-border-hover));
+}
+
+.carouselButton:active {
+  transform: scale(0.95);
+}
+
+.carouselButton:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+}
+
+.carouselButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.carouselDots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carouselDot {
+  width: 10px;
+  height: 10px;
+  background: hsl(var(--landing-border));
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.carouselDot:hover {
+  background: hsl(var(--landing-text-subtle));
+}
+
+.carouselDot.dotActive {
+  background: hsl(var(--landing-primary));
+  transform: scale(1.2);
+}
+
+.carouselDot:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+ * CTA SECTION - Aurora Glow
+ * ========================================================================== */
+.ctaSection {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+/* Aurora Background */
+.auroraBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.auroraLayer1,
+.auroraLayer2,
+.auroraLayer3 {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-size: 400% 400%;
+}
+
+.visible .auroraLayer1,
+.visible .auroraLayer2,
+.visible .auroraLayer3 {
+  opacity: 1;
+  animation: auroraFlow 10s ease-in-out infinite;
+}
+
+.auroraLayer1 {
+  background: linear-gradient(
+    45deg,
+    hsl(var(--landing-primary) / 0.15),
+    transparent 50%,
+    hsl(var(--landing-accent) / 0.1)
+  );
+  animation-delay: 0s;
+}
+
+.auroraLayer2 {
+  background: linear-gradient(
+    135deg,
+    transparent,
+    hsl(var(--landing-secondary) / 0.1) 50%,
+    transparent
+  );
+  animation-delay: -3s;
+}
+
+.auroraLayer3 {
+  background: linear-gradient(
+    225deg,
+    hsl(var(--landing-accent) / 0.08),
+    transparent 50%,
+    hsl(var(--landing-primary) / 0.1)
+  );
+  animation-delay: -6s;
+}
+
+@keyframes auroraFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.ctaContainer {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: hsl(var(--landing-text));
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visible .ctaTitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ctaSubtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: hsl(var(--landing-text-muted));
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+}
+
+.visible .ctaSubtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ctaActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.visible .ctaActions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: hsl(var(--landing-primary-foreground));
+  background: linear-gradient(
+    135deg,
+    hsl(var(--landing-primary)) 0%,
+    hsl(var(--landing-primary-hover)) 100%
+  );
+  border: none;
+  border-radius: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.ctaButton:hover {
+  box-shadow: var(--landing-shadow-glow), var(--landing-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.ctaButton:active {
+  transform: scale(0.98);
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+}
+
+.ctaArrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+.ctaNote {
+  font-size: 0.875rem;
+  color: hsl(var(--landing-text-subtle));
+}
+
+/* ==========================================================================
+ * RESPONSIVE STYLES
+ * ========================================================================== */
+@media (max-width: 768px) {
+  .featuresSection,
+  .testimonialsSection,
+  .ctaSection {
+    padding: 5rem 0;
+  }
+
+  .sectionHeader {
+    margin-bottom: 3rem;
+  }
+
+  .testimonialCard {
+    padding: 1.5rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .carousel {
+    min-height: 280px;
+  }
+}
+
+/* ==========================================================================
+ * REDUCED MOTION SUPPORT
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .sectionHeader,
+  .featureCard,
+  .statCard,
+  .ctaTitle,
+  .ctaSubtitle,
+  .ctaActions {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .constellationLine {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .constellationNode {
+    opacity: 0.3;
+    animation: none;
+  }
+
+  .testimonialCard {
+    transition: none;
+  }
+
+  .auroraLayer1,
+  .auroraLayer2,
+  .auroraLayer3 {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .ctaButton:hover {
+    transform: none;
+  }
+}

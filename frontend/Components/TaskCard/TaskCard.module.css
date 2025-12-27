@@ -1,0 +1,360 @@
+/* TaskCard Styles */
+/* Creative, out-of-the-box design with depth, motion, and clarity */
+
+/* Theme Colors - Consistent with auth pages */
+:global(:root) {
+  --task-card-bg: 250 20% 10%;
+  --task-card-border: 250 15% 20%;
+  --task-foreground: 250 10% 95%;
+  --task-muted: 250 10% 20%;
+  --task-accent: 15 85% 60%;
+  --task-accent-hover: 15 90% 65%;
+  --task-critical: 5 85% 60%;
+  --task-high: 10 85% 65%;
+  --task-medium: 45 90% 60%;
+  --task-low: 142 85% 55%;
+  --task-overdue: 0 85% 65%;
+}
+
+.card {
+  position: relative;
+  background: hsl(var(--task-card-bg));
+  border: 1px solid hsl(var(--task-card-border));
+  border-radius: 1rem;
+  overflow: hidden;
+  transition:
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms ease,
+    border-color 200ms ease;
+  box-shadow:
+    0 2px 4px -1px hsl(var(--task-card-border) / 0.2),
+    0 1px 2px -2px hsl(var(--task-card-border) / 0.15);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 8px 16px -4px hsl(var(--task-card-border) / 0.3),
+    0 4px 8px -4px hsl(var(--task-card-border) / 0.2),
+    0 0 0 1px hsla(var(--task-accent) / 0.15);
+  border-color: hsla(var(--task-accent) / 0.3);
+}
+
+.card.completed {
+  opacity: 0.7;
+}
+
+.card.completed .title {
+  text-decoration: line-through;
+  color: hsl(var(--task-muted));
+}
+
+/* Priority indicator bar */
+.priorityBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transition: background-color 300ms ease;
+}
+
+.priorityBar.priorityCritical {
+  background: linear-gradient(90deg, hsl(var(--task-critical)), transparent);
+}
+
+.priorityBar.priorityHigh {
+  background: linear-gradient(90deg, hsl(var(--task-high)), transparent);
+}
+
+.priorityBar.priorityMedium {
+  background: linear-gradient(90deg, hsl(var(--task-medium)), transparent);
+}
+
+.priorityBar.priorityLow {
+  background: linear-gradient(90deg, hsl(var(--task-low)), transparent);
+}
+
+.content {
+  padding: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header: title and actions */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.titleWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--task-foreground));
+  margin: 0;
+  line-height: 1.4;
+  transition: color 200ms ease;
+}
+
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  background: hsla(var(--task-card-border) / 0.3);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  animation: slideIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.priorityIcon {
+  font-size: 0.875rem;
+}
+
+.priorityLabel {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  color: hsl(var(--task-foreground));
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transform: translateX(10px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--task-card-border));
+  background: hsl(var(--task-card-bg));
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+  color: hsl(var(--task-foreground));
+}
+
+.actionButton:hover {
+  background: hsl(var(--task-accent));
+  border-color: hsl(var(--task-accent));
+  color: hsl(var(--task-card-bg));
+  transform: scale(1.1);
+  box-shadow: 0 0 15px -3px hsla(var(--task-accent) / 0.5);
+}
+
+.actionButton:active {
+  transform: scale(1);
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--task-overdue));
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+  color: hsl(var(--task-overdue));
+}
+
+.deleteButton:hover {
+  background: hsl(var(--task-overdue));
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px -3px hsla(var(--task-overdue) / 0.5);
+}
+
+.deleteButton:active {
+  transform: scale(1);
+}
+
+/* Description */
+.description {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  color: hsl(var(--task-foreground));
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Footer: tags and deadline */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tags {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  background: hsla(var(--task-card-border) / 0.2);
+  border: 1px solid hsla(var(--task-card-border) / 0.3);
+  border-radius: 9999px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: hsl(var(--task-foreground));
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 150ms ease;
+}
+
+.tag:hover {
+  background: hsla(var(--task-card-border) / 0.4);
+  border-color: hsla(var(--task-card-border) / 0.6);
+  transform: translateY(-2px);
+}
+
+.deadline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  background: hsla(var(--task-card-border) / 0.15);
+  border-radius: 0.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: hsl(var(--task-foreground));
+  transition: color 200ms ease;
+}
+
+.deadline.overdue {
+  color: hsl(var(--task-overdue));
+  background: hsla(var(--task-overdue) / 0.1);
+}
+
+.deadlineIcon {
+  font-size: 0.875rem;
+}
+
+/* Spotlight effect */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    transparent 0%,
+    hsla(var(--task-accent) / 0.08) 100%
+  );
+  transition: opacity 300ms ease;
+}
+
+.card:hover .spotlight {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.875rem;
+  }
+
+  .actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover,
+  .actionButton:hover,
+  .deleteButton:hover,
+  .tag:hover,
+  .priorityBadge,
+  .spotlight {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+
+  .card:hover {
+    box-shadow:
+      0 8px 16px -4px hsl(var(--task-card-border) / 0.3),
+      0 4px 8px -4px hsl(var(--task-card-border) / 0.2);
+  }
+}

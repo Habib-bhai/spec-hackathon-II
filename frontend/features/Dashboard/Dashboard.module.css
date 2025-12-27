@@ -1,0 +1,501 @@
+/* Dashboard Styles */
+/* Creative, out-of-the-box design with responsive layout */
+
+/* Theme Colors - Consistent with app */
+:global(:root) {
+  --dashboard-bg: 250 20% 7%;
+  --dashboard-foreground: 250 10% 95%;
+  --dashboard-muted: 250 10% 15%;
+  --dashboard-accent: 15 85% 60%;
+  --dashboard-accent-hover: 15 90% 65%;
+  --dashboard-card: 250 20% 10%;
+  --dashboard-border: 250 15% 20%;
+  --dashboard-error: 5 85% 60%;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  background: hsl(var(--dashboard-bg));
+  overflow: hidden;
+}
+
+/* Background effects */
+.background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 30% 50%,
+      hsla(var(--dashboard-accent) / 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 30%,
+      hsla(var(--dashboard-muted) / 0.05) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  animation: fadeIn 500ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile header */
+.mobileHeader {
+  display: none;
+  padding: 1rem 1.5rem;
+  background: hsl(var(--dashboard-card));
+  border-bottom: 1px solid hsl(var(--dashboard-border));
+  z-index: 20;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.title {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--dashboard-foreground));
+  margin: 0 0 0.25rem 0;
+}
+
+.subtitle {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: hsl(var(--dashboard-muted));
+  margin: 0;
+}
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--dashboard-border));
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: hsl(var(--dashboard-foreground));
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 150ms ease;
+}
+
+.menuButton:hover {
+  background: hsl(var(--dashboard-accent));
+  border-color: hsl(var(--dashboard-accent));
+  color: white;
+  transform: scale(1.05);
+}
+
+.menuButton:active {
+  transform: scale(0.95);
+}
+
+/* Main content */
+.mainContent {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Task creation form */
+.formSection {
+  width: 350px;
+  padding: 1.5rem;
+  background: hsl(var(--dashboard-card));
+  border-right: 1px solid hsl(var(--dashboard-border));
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formTitle {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--dashboard-foreground));
+  margin: 0 0 0.5rem 0;
+  animation: slideDown 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.formRow .formField {
+  flex: 1;
+}
+
+.label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--dashboard-foreground));
+  margin-bottom: 0.125rem;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: hsl(var(--dashboard-foreground));
+  background: hsl(var(--dashboard-bg));
+  border: 1px solid hsl(var(--dashboard-border));
+  border-radius: 0.625rem;
+  outline: none;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 150ms ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: hsl(var(--dashboard-muted) / 0.5);
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: hsla(var(--dashboard-accent) / 0.5);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: hsl(var(--dashboard-accent));
+  box-shadow:
+    0 0 0 3px hsla(var(--dashboard-accent) / 0.1),
+    0 0 15px -3px hsla(var(--dashboard-accent) / 0.2);
+  transform: translateY(-1px);
+}
+
+.input:disabled,
+.textarea:disabled,
+.select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inputError {
+  border-color: hsl(var(--dashboard-error));
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.errorText {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: hsl(var(--dashboard-error));
+  margin-top: 0.25rem;
+  animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1rem;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: hsl(var(--dashboard-accent));
+  border: none;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 150ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+  box-shadow:
+    0 4px 6px -1px hsla(var(--dashboard-accent) / 0.4),
+    0 2px 4px -2px hsla(var(--dashboard-accent) / 0.3);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: hsl(var(--dashboard-accent-hover));
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 12px -2px hsla(var(--dashboard-accent) / 0.5),
+    0 4px 6px -2px hsla(var(--dashboard-accent) / 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    hsla(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 600ms ease;
+}
+
+.submitButton:hover::before {
+  transform: translateX(100%);
+}
+
+/* Task list */
+.listSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.searchBar {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  background: hsl(var(--dashboard-card));
+  border-bottom: 1px solid hsl(var(--dashboard-border));
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: hsl(var(--dashboard-foreground));
+  background: hsl(var(--dashboard-bg));
+  border: 1px solid hsl(var(--dashboard-border));
+  border-radius: 9999px;
+  outline: none;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.searchInput:focus {
+  border-color: hsl(var(--dashboard-accent));
+  box-shadow:
+    0 0 0 3px hsla(var(--dashboard-accent) / 0.1),
+    0 0 15px -3px hsla(var(--dashboard-accent) / 0.2);
+}
+
+/* Mobile filters */
+.filtersMobile {
+  display: none;
+  padding: 1rem 1.5rem;
+  background: hsl(var(--dashboard-card));
+  border-bottom: 1px solid hsl(var(--dashboard-border));
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filtersMobile.open {
+  max-height: 500px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterLabel {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--dashboard-foreground));
+  margin-bottom: 0.25rem;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: 0.5rem 0.875rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--dashboard-foreground));
+  background: hsl(var(--dashboard-bg));
+  border: 1px solid hsl(var(--dashboard-border));
+  border-radius: 9999px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.filterButton:hover {
+  border-color: hsla(var(--dashboard-accent) / 0.5);
+}
+
+.filterButton.active {
+  background: hsl(var(--dashboard-accent));
+  border-color: hsl(var(--dashboard-accent));
+  color: white;
+}
+
+.errorMessage {
+  padding: 1rem;
+  background: hsla(var(--dashboard-error) / 0.1);
+  border: 1px solid hsla(var(--dashboard-error) / 0.2);
+  border-radius: 0.5rem;
+  color: hsl(var(--dashboard-error));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .formSection {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid hsl(var(--dashboard-border));
+    padding: 1.5rem;
+  }
+
+  .listSection {
+    overflow: visible;
+  }
+
+  .mobileHeader {
+    display: block;
+  }
+
+  .formSection {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobileHeader {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .filtersMobile {
+    display: flex;
+  }
+
+  .formRow {
+    flex-direction: column;
+  }
+
+  .searchBar {
+    padding: 1rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .submitButton:hover,
+  .filterButton:hover,
+  .input:hover,
+  .menuButton:hover {
+    transform: none;
+  }
+
+  .filtersMobile {
+    transition: none;
+  }
+
+  .input:focus {
+    transform: none;
+  }
+}

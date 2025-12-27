@@ -1,0 +1,463 @@
+/**
+ * Header Component Styles
+ * Feature: 002-engaging-landing-pages
+ *
+ * Glass Morphism Transform on scroll, underline draw effects,
+ * and cascade reveal mobile menu.
+ * Designed via ui-ux skill for seamless navigation.
+ */
+
+/* ==========================================================================
+ * BASE HEADER STYLES
+ * ========================================================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 0;
+  transition:
+    background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scrolled state - Glass Morphism */
+.header.scrolled {
+  background: hsl(var(--landing-glass-bg));
+  backdrop-filter: blur(var(--landing-glass-blur));
+  -webkit-backdrop-filter: blur(var(--landing-glass-blur));
+  box-shadow: var(--landing-shadow-md);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid hsl(var(--landing-glass-border));
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ==========================================================================
+ * LOGO STYLES
+ * ========================================================================== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+.logo:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--landing-text));
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+ * DESKTOP NAVIGATION
+ * ========================================================================== */
+.desktopNav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktopNav {
+    display: block;
+  }
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: hsl(var(--landing-text-muted));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: hsl(var(--landing-text));
+}
+
+.navLink:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.navLinkText {
+  position: relative;
+  z-index: 1;
+}
+
+/* Underline Draw Effect */
+.navLinkUnderline {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 1rem;
+  right: 1rem;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--landing-primary)),
+    hsl(var(--landing-accent))
+  );
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navLink:hover .navLinkUnderline {
+  transform: scaleX(1);
+}
+
+/* Active State */
+.navLinkActive {
+  color: hsl(var(--landing-text));
+}
+
+.navLinkActive .navLinkUnderline {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+ * DESKTOP CTA BUTTON
+ * ========================================================================== */
+.ctaButton {
+  display: none;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--landing-primary-foreground));
+  background: linear-gradient(
+    135deg,
+    hsl(var(--landing-primary)) 0%,
+    hsl(var(--landing-primary-hover)) 100%
+  );
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition:
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.15s ease;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .ctaButton {
+    display: inline-flex;
+  }
+}
+
+.ctaButton:hover {
+  box-shadow: var(--landing-shadow-glow);
+}
+
+.ctaButton:active {
+  transform: scale(0.97);
+}
+
+.ctaButton:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+ * MOBILE MENU BUTTON (HAMBURGER)
+ * ========================================================================== */
+.mobileMenuButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 110;
+}
+
+@media (min-width: 768px) {
+  .mobileMenuButton {
+    display: none;
+  }
+}
+
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: hsl(var(--landing-text));
+  border-radius: 2px;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+
+/* Hamburger to X transformation */
+.mobileMenuButton.menuOpen .hamburgerLine:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobileMenuButton.menuOpen .hamburgerLine:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.mobileMenuButton.menuOpen .hamburgerLine:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobileMenuButton:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+ * MOBILE MENU OVERLAY
+ * ========================================================================== */
+.mobileMenuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: hsl(var(--landing-bg) / 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.4s ease;
+}
+
+.mobileMenuOverlay.mobileMenuVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileMenuContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 6rem 2rem 4rem;
+}
+
+/* ==========================================================================
+ * MOBILE NAVIGATION LIST
+ * ========================================================================== */
+.mobileNavList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileNavItem {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.mobileMenuVisible .mobileNavItem {
+  animation: mobileNavItemReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes mobileNavItemReveal {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobileNavLink {
+  display: block;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--landing-text-muted));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink:focus {
+  color: hsl(var(--landing-text));
+}
+
+.mobileNavLinkActive {
+  color: hsl(var(--landing-primary));
+}
+
+.mobileNavLink:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+ * MOBILE CTA
+ * ========================================================================== */
+.mobileCta {
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.mobileMenuVisible .mobileCta {
+  animation: mobileNavItemReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mobileCtaButton {
+  display: inline-flex;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(var(--landing-primary-foreground));
+  background: linear-gradient(
+    135deg,
+    hsl(var(--landing-primary)) 0%,
+    hsl(var(--landing-primary-hover)) 100%
+  );
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.15s ease;
+}
+
+.mobileCtaButton:hover {
+  box-shadow: var(--landing-shadow-glow);
+}
+
+.mobileCtaButton:active {
+  transform: scale(0.97);
+}
+
+.mobileCtaButton:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+ * RESPONSIVE BREAKPOINTS
+ * ========================================================================== */
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+
+  .mobileMenuOverlay {
+    display: none;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 3rem;
+  }
+
+  .navList {
+    gap: 0.75rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+
+/* ==========================================================================
+ * REDUCED MOTION SUPPORT
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
+
+  .navLinkUnderline {
+    transition: none;
+  }
+
+  .hamburgerLine {
+    transition: none;
+  }
+
+  .mobileMenuOverlay {
+    transition: none;
+  }
+
+  .mobileNavItem {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mobileMenuVisible .mobileNavItem {
+    animation: none;
+  }
+
+  .mobileCta {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mobileMenuVisible .mobileCta {
+    animation: none;
+  }
+
+  .ctaButton,
+  .mobileCtaButton {
+    transition: none;
+  }
+}

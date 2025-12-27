@@ -1,0 +1,329 @@
+/**
+ * Footer Component Styles
+ * Feature: 002-engaging-landing-pages
+ *
+ * Rising reveal animation with staggered columns and social media micro-animations.
+ * Designed via ui-ux skill for brand closure.
+ */
+
+/* ==========================================================================
+ * BASE FOOTER STYLES
+ * ========================================================================== */
+.footer {
+  background: hsl(var(--landing-bg-secondary));
+  border-top: 1px solid hsl(var(--landing-border));
+  padding-top: 5rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footerContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footerContainer {
+    grid-template-columns: 1.5fr 2.5fr;
+    gap: 4rem;
+  }
+}
+
+/* ==========================================================================
+ * BRAND SECTION
+ * ========================================================================== */
+.brandSection {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.visible .brandSection {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footerLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: opacity 0.2s ease;
+}
+
+.footerLogo:hover {
+  opacity: 0.85;
+}
+
+.footerLogo:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--landing-text));
+  letter-spacing: -0.02em;
+}
+
+.brandTagline {
+  font-size: 0.95rem;
+  color: hsl(var(--landing-text-muted));
+  margin-bottom: 1.5rem;
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+ * SOCIAL LINKS
+ * ========================================================================== */
+.socialLinks {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: hsl(var(--landing-card));
+  border: 1px solid hsl(var(--landing-border));
+  border-radius: 10px;
+  color: hsl(var(--landing-text-muted));
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.socialLink:hover {
+  background: hsl(var(--landing-card-hover));
+  border-color: hsl(var(--landing-border-hover));
+  color: hsl(var(--landing-primary));
+  transform: translateY(-2px);
+}
+
+.socialLink:active {
+  transform: scale(0.95);
+}
+
+.socialLink:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+}
+
+.socialLink svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+ * LINK COLUMNS
+ * ========================================================================== */
+.linkColumns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .linkColumns {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.linkColumn {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.visible .linkColumn {
+  animation: columnReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes columnReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.columnTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--landing-text));
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footerLink {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: hsl(var(--landing-text-muted));
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: color 0.2s ease;
+}
+
+.footerLink:hover {
+  color: hsl(var(--landing-text));
+}
+
+.footerLink:focus-visible {
+  outline: 2px solid hsl(var(--landing-primary));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+ * BOTTOM BAR
+ * ========================================================================== */
+.bottomBar {
+  margin-top: 4rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid hsl(var(--landing-border));
+}
+
+.bottomContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.copyright {
+  position: relative;
+  font-size: 0.875rem;
+  color: hsl(var(--landing-text-subtle));
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Copyright line draw animation */
+.copyrightLine {
+  display: none;
+  width: 30px;
+  height: 1px;
+  background: hsl(var(--landing-primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease 0.5s;
+}
+
+.visible .copyrightLine {
+  transform: scaleX(1);
+}
+
+@media (min-width: 768px) {
+  .copyrightLine {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+ * RESPONSIVE STYLES
+ * ========================================================================== */
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 3rem;
+  }
+
+  .footerContainer {
+    gap: 2.5rem;
+  }
+
+  .bottomBar {
+    margin-top: 2.5rem;
+  }
+
+  .brandSection {
+    text-align: center;
+  }
+
+  .brandTagline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+  .linkColumns {
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+ * REDUCED MOTION SUPPORT
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .footer {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .brandSection,
+  .linkColumn {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .visible .linkColumn {
+    animation: none;
+  }
+
+  .socialLink:hover {
+    transform: none;
+  }
+
+  .copyrightLine {
+    transform: scaleX(1);
+    transition: none;
+  }
+}

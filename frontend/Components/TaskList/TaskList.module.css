@@ -1,0 +1,267 @@
+/* TaskList Styles */
+/* Virtually-optimized list with creative, out-of-the-box design */
+
+/* Theme Colors - Consistent with app */
+:global(:root) {
+  --tasklist-bg: 250 20% 7%;
+  --tasklist-foreground: 250 10% 95%;
+  --tasklist-muted: 250 10% 15%;
+  --tasklist-accent: 15 85% 60%;
+  --tasklist-border: 250 15% 20%;
+  --tasklist-skeleton: 250 20% 12%;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+}
+
+.scrollContainer {
+  height: calc(100vh - 300px);
+  min-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar */
+.scrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: hsl(var(--tasklist-skeleton));
+  border-radius: 4px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: hsl(var(--tasklist-muted));
+  border-radius: 4px;
+  transition: background-color 200ms ease;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--tasklist-accent));
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 2rem;
+  animation: fadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.emptyContent {
+  text-align: center;
+  max-width: 400px;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+.emptyTitle {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--tasklist-foreground));
+  margin: 0 0 0.75rem 0;
+  animation: slideDown 500ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.emptyMessage {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: hsl(var(--tasklist-muted));
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+  animation: slideDown 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+}
+
+.emptyHint {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: hsl(var(--tasklist-accent));
+  margin: 0;
+  animation: slideDown 500ms cubic-bezier(0.16, 1, 0.3, 1) 450ms both;
+}
+
+/* Loading state */
+.loadingState {
+  padding: 2rem;
+  animation: fadeIn 300ms ease-out;
+}
+
+.skeletonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: hsl(var(--tasklist-skeleton));
+  border: 1px solid hsl(var(--tasklist-border));
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeletonCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsla(var(--tasklist-accent) / 0.3),
+    hsla(var(--tasklist-accent) / 0.5),
+    hsla(var(--tasklist-accent) / 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeletonHeader {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.skeletonHeader::before {
+  content: '';
+  flex: 1;
+  height: 1.25rem;
+  background: hsla(var(--tasklist-muted) / 0.2);
+  border-radius: 0.375rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonHeader::after {
+  content: '';
+  width: 4rem;
+  height: 1.75rem;
+  background: hsla(var(--tasklist-accent) / 0.2);
+  border-radius: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite 0.3s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.skeletonBody {
+  height: 2.5rem;
+  background: hsla(var(--tasklist-muted) / 0.15);
+  border-radius: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite 0.6s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .scrollContainer {
+    height: calc(100vh - 200px);
+    min-height: 300px;
+  }
+
+  .emptyContent {
+    padding: 0;
+  }
+
+  .emptyIcon {
+    font-size: 3rem;
+  }
+
+  .emptyTitle {
+    font-size: 1.25rem;
+  }
+
+  .emptyMessage {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .scrollContainer {
+    height: calc(100vh - 150px);
+  }
+
+  .emptyState {
+    padding: 1rem;
+  }
+
+  .skeletonCard {
+    padding: 1rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .emptyIcon,
+  .skeletonCard::after {
+    animation: none;
+  }
+
+  .scrollContainer {
+    scroll-behavior: auto;
+  }
+}

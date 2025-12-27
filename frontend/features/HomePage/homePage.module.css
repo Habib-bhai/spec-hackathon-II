@@ -1,0 +1,15 @@
+/**
+ * HomePage Component Styles
+ * Feature: 002-engaging-landing-pages
+ *
+ * Container styles for HomePage orchestration.
+ */
+
+.homepageMain {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background: hsl(var(--landing-bg));
+  color: hsl(var(--landing-text));
+  min-height: 100vh;
+}
