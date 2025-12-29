@@ -3,20 +3,20 @@
 
 /* Theme Colors - Consistent with app */
 :global(:root) {
-  --dashboard-bg: 250 20% 7%;
-  --dashboard-foreground: 250 10% 95%;
-  --dashboard-muted: 250 10% 15%;
-  --dashboard-accent: 15 85% 60%;
-  --dashboard-accent-hover: 15 90% 65%;
-  --dashboard-card: 250 20% 10%;
-  --dashboard-border: 250 15% 20%;
-  --dashboard-error: 5 85% 60%;
+  --dashboard-bg: var(--color-background-primary);
+  --dashboard-foreground: var(--color-text-primary);
+  --dashboard-muted: var(--color-text-muted);
+  --dashboard-accent: var(--color-accent-primary);
+  --dashboard-accent-hover: #ff6b4a;
+  --dashboard-card: var(--color-background-secondary);
+  --dashboard-border: var(--color-border-default);
+  --dashboard-error: var(--color-text-error);
 }
 
 .container {
   position: relative;
   min-height: 100vh;
-  background: hsl(var(--dashboard-bg));
+  background: var(--dashboard-bg);
   overflow: hidden;
 }
 
@@ -57,8 +57,8 @@
 .mobileHeader {
   display: none;
   padding: 1rem 1.5rem;
-  background: hsl(var(--dashboard-card));
-  border-bottom: 1px solid hsl(var(--dashboard-border));
+  background: var(--dashboard-card);
+  border-bottom: 1px solid var(--dashboard-border);
   z-index: 20;
 }
 
@@ -75,15 +75,15 @@
 }
 
 .title {
-  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 1.5rem;
   font-weight: 700;
-  color: hsl(var(--dashboard-foreground));
+  color: var(--dashboard-foreground);
   margin: 0 0 0.25rem 0;
 }
 
 .subtitle {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.9375rem;
   font-weight: 400;
   color: hsl(var(--dashboard-muted));
@@ -97,11 +97,11 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.5rem;
-  border: 1px solid hsl(var(--dashboard-border));
+  border: 1px solid var(--dashboard-border);
   background: transparent;
   cursor: pointer;
   font-size: 1.25rem;
-  color: hsl(var(--dashboard-foreground));
+  color: var(--dashboard-foreground);
   transition:
     background-color 200ms ease,
     border-color 200ms ease,
@@ -133,8 +133,8 @@
 .formSection {
   width: 350px;
   padding: 1.5rem;
-  background: hsl(var(--dashboard-card));
-  border-right: 1px solid hsl(var(--dashboard-border));
+  background: var(--dashboard-card);
+  border-right: 1px solid var(--dashboard-border);
   overflow-y: auto;
   flex-shrink: 0;
 }
@@ -146,10 +146,10 @@
 }
 
 .formTitle {
-  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 1.25rem;
   font-weight: 600;
-  color: hsl(var(--dashboard-foreground));
+  color: var(--dashboard-foreground);
   margin: 0 0 0.5rem 0;
   animation: slideDown 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -181,10 +181,10 @@
 }
 
 .label {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.875rem;
   font-weight: 500;
-  color: hsl(var(--dashboard-foreground));
+  color: var(--dashboard-foreground);
   margin-bottom: 0.125rem;
 }
 
@@ -193,12 +193,12 @@
 .select {
   width: 100%;
   padding: 0.75rem 1rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.9375rem;
   font-weight: 400;
-  color: hsl(var(--dashboard-foreground));
-  background: hsl(var(--dashboard-bg));
-  border: 1px solid hsl(var(--dashboard-border));
+  color: var(--dashboard-foreground);
+  background: var(--dashboard-bg);
+  border: 1px solid var(--dashboard-border);
   border-radius: 0.625rem;
   outline: none;
   transition:
@@ -245,7 +245,7 @@
 }
 
 .errorText {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.75rem;
   font-weight: 500;
   color: hsl(var(--dashboard-error));
@@ -265,37 +265,40 @@
   }
 }
 
+/* T045: Premium button gradient with design token colors */
 .submitButton {
+  position: relative;
   width: 100%;
   padding: 1rem;
-  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: hsl(var(--dashboard-accent));
+  background: linear-gradient(135deg, var(--color-accent-primary), #ff6b4a);
   border: none;
-  border-radius: 0.625rem;
+  border-radius: var(--radius-md);
   cursor: pointer;
   overflow: hidden;
   transition:
-    transform 150ms ease,
-    box-shadow 200ms ease,
-    background-color 200ms ease;
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
   box-shadow:
-    0 4px 6px -1px hsla(var(--dashboard-accent) / 0.4),
-    0 2px 4px -2px hsla(var(--dashboard-accent) / 0.3);
+    0 4px 6px -1px rgba(250, 69, 31, 0.4),
+    0 2px 4px -2px rgba(250, 69, 31, 0.3);
 }
 
+/* T046: Button hover elevation effect */
 .submitButton:hover:not(:disabled) {
-  background: hsl(var(--dashboard-accent-hover));
   transform: translateY(-2px);
   box-shadow:
-    0 8px 12px -2px hsla(var(--dashboard-accent) / 0.5),
-    0 4px 6px -2px hsla(var(--dashboard-accent) / 0.4);
+    0 8px 16px -4px rgba(250, 69, 31, 0.5),
+    0 4px 8px -2px rgba(250, 69, 31, 0.4),
+    var(--shadow-glow-primary);
 }
 
+/* T047: Click feedback animation (scale 0.98) */
 .submitButton:active:not(:disabled) {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .submitButton:disabled {
@@ -331,19 +334,19 @@
 
 .searchBar {
   padding: 1rem 1.5rem 1.5rem 1.5rem;
-  background: hsl(var(--dashboard-card));
-  border-bottom: 1px solid hsl(var(--dashboard-border));
+  background: var(--dashboard-card);
+  border-bottom: 1px solid var(--dashboard-border);
 }
 
 .searchInput {
   width: 100%;
   padding: 0.875rem 1rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 1rem;
   font-weight: 400;
-  color: hsl(var(--dashboard-foreground));
-  background: hsl(var(--dashboard-bg));
-  border: 1px solid hsl(var(--dashboard-border));
+  color: var(--dashboard-foreground);
+  background: var(--dashboard-bg);
+  border: 1px solid var(--dashboard-border);
   border-radius: 9999px;
   outline: none;
   transition:
@@ -362,8 +365,8 @@
 .filtersMobile {
   display: none;
   padding: 1rem 1.5rem;
-  background: hsl(var(--dashboard-card));
-  border-bottom: 1px solid hsl(var(--dashboard-border));
+  background: var(--dashboard-card);
+  border-bottom: 1px solid var(--dashboard-border);
   flex-direction: column;
   gap: 1rem;
   max-height: 0;
@@ -382,10 +385,10 @@
 }
 
 .filterLabel {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.875rem;
   font-weight: 600;
-  color: hsl(var(--dashboard-foreground));
+  color: var(--dashboard-foreground);
   margin-bottom: 0.25rem;
 }
 
@@ -397,12 +400,12 @@
 
 .filterButton {
   padding: 0.5rem 0.875rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.875rem;
   font-weight: 500;
-  color: hsl(var(--dashboard-foreground));
-  background: hsl(var(--dashboard-bg));
-  border: 1px solid hsl(var(--dashboard-border));
+  color: var(--dashboard-foreground);
+  background: var(--dashboard-bg);
+  border: 1px solid var(--dashboard-border);
   border-radius: 9999px;
   cursor: pointer;
   transition:
@@ -427,14 +430,15 @@
   border: 1px solid hsla(var(--dashboard-error) / 0.2);
   border-radius: 0.5rem;
   color: hsl(var(--dashboard-error));
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.9375rem;
   font-weight: 500;
   text-align: center;
   margin: 1rem;
 }
+/* Responsive - T033-T034: Mobile and tablet breakpoints */
 
-/* Responsive */
+/* T034: Tablet breakpoint (640px-1024px) */
 @media (max-width: 1024px) {
   .mainContent {
     flex-direction: column;
@@ -443,7 +447,7 @@
   .formSection {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid hsl(var(--dashboard-border));
+    border-bottom: 1px solid var(--dashboard-border);
     padding: 1.5rem;
   }
 
@@ -457,6 +461,18 @@
 
   .formSection {
     display: none;
+  }
+
+  /* Touch-friendly spacing for tablet */
+  .filterButton {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.625rem 1rem;
+  }
+
+  .menuButton {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -482,7 +498,80 @@
   }
 }
 
-/* Reduced motion */
+/* T033: Extra small mobile (< 640px) - Enhanced touch targets */
+@media (max-width: 640px) {
+  .container {
+    padding: 0;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  .mobileHeader {
+    padding: 0.75rem 1rem;
+  }
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .subtitle {
+    font-size: 0.8125rem;
+  }
+
+  /* T038: Touch-friendly 44px minimum touch targets */
+  .menuButton {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .submitButton {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    min-height: 44px;
+    padding: 0.625rem 0.875rem;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .filterButton {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .filterButtons {
+    gap: 0.5rem;
+  }
+
+  .filterGroup {
+    gap: 0.375rem;
+  }
+
+  .searchInput {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .searchBar {
+    padding: 0.75rem;
+  }
+
+  .filtersMobile {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* T037: Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .submitButton:hover,
   .filterButton:hover,
@@ -498,4 +587,28 @@
   .input:focus {
     transform: none;
   }
+}
+
+/* T043: Loading spinner animation */
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

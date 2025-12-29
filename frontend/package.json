@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@better-fetch/fetch": "^1.1.21",
+    "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-virtual": "^3.13.13",
     "better-auth": "^1.4.9",
     "date-fns": "^4.1.0",
+    "gsap": "^3.14.2",
     "motion": "^12.23.26",
     "next": "16.1.1",
     "pg": "^8.16.3",

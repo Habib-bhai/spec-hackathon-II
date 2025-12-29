@@ -1,0 +1,235 @@
+/**
+ * Design Tokens - Premium Frontend Redesign
+ *
+ * Centralized CSS custom properties for consistent visual design.
+ * Feature: 005-frontend-redesign
+ *
+ * Color palette inspired by Nauticus Robotics and Nulixir websites.
+ */
+
+:root {
+  /* ==========================================================================
+   * COLORS - Primary Palette
+   * ========================================================================== */
+
+  /* Background Colors - Deep Slate */
+  --color-background-primary: #1a1a2e;
+  --color-background-secondary: #252541;
+  --color-background-tertiary: #32373c;
+
+  /* Accent Colors */
+  --color-accent-primary: #fa451f;
+  --color-accent-secondary: #0170B9;
+  --color-accent-success: #83d2e4;
+
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #f5f5f5;
+  --color-text-muted: #a0a0b0;
+  --color-text-error: #ff4d4d;
+
+  /* Priority Colors */
+  --color-priority-critical: #ff3b30;
+  --color-priority-high: #ff9500;
+  --color-priority-medium: #ffcc00;
+  --color-priority-low: #34c759;
+
+  /* Border & Overlay Colors */
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-focus: #fa451f;
+  --color-overlay: rgba(0, 0, 0, 0.8);
+
+  /* ==========================================================================
+   * TYPOGRAPHY
+   * ========================================================================== */
+
+  /* Font Families */
+  --font-family-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'Fira Code', 'Monaco', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 2rem;       /* 32px */
+  --font-size-4xl: 2.625rem;   /* 42px */
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ==========================================================================
+   * SPACING
+   * Based on 4px unit (0.25rem)
+   * ========================================================================== */
+
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.25rem;   /* 20px */
+  --spacing-6: 1.5rem;    /* 24px */
+  --spacing-8: 2rem;      /* 32px */
+  --spacing-10: 2.5rem;   /* 40px */
+  --spacing-12: 3rem;     /* 48px */
+
+  /* ==========================================================================
+   * SHADOWS
+   * ========================================================================== */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 12px 24px -6px rgba(0, 0, 0, 0.5);
+  --shadow-glow-primary: 0 0 20px rgba(250, 69, 31, 0.4);
+  --shadow-glow-secondary: 0 0 20px rgba(1, 112, 185, 0.4);
+
+  /* ==========================================================================
+   * BORDER RADIUS
+   * ========================================================================== */
+
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+   * ANIMATION
+   * All within 400ms max per SC-002 (except page transitions)
+   * ========================================================================== */
+
+  /* Durations */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+
+  /* Easing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ==========================================================================
+   * Z-INDEX SCALE
+   * ========================================================================== */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal-backdrop: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+
+  /* ==========================================================================
+   * BREAKPOINTS (for reference - use in media queries)
+   * ========================================================================== */
+
+  /*
+   * --breakpoint-sm: 640px;   Mobile landscape
+   * --breakpoint-md: 768px;   Tablet
+   * --breakpoint-lg: 1024px;  Laptop
+   * --breakpoint-xl: 1240px;  Desktop
+   */
+}
+
+/* ==========================================================================
+ * SHARED INPUT STYLES
+ * Premium focus glow effect (US6, FR-014)
+ * ========================================================================== */
+
+.input-focus-glow {
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.input-focus-glow:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(250, 69, 31, 0.15), var(--shadow-glow-primary);
+  outline: none;
+}
+
+/* ==========================================================================
+ * SHAKE ANIMATION
+ * Validation error feedback (US6, FR-015)
+ * ========================================================================== */
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+.shake {
+  animation: shake var(--duration-slow) var(--ease-in-out);
+}
+
+/* ==========================================================================
+ * BUTTON GRADIENT STYLES
+ * Premium button design (US7, FR-016, FR-017)
+ * ========================================================================== */
+
+.button-gradient {
+  background: linear-gradient(135deg, var(--color-accent-primary), #ff6b4a);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.button-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow-primary);
+}
+
+.button-gradient:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+ * REDUCED MOTION
+ * Accessibility support (FR-010)
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+
+  .shake {
+    animation: none;
+  }
+
+  .button-gradient:hover,
+  .button-gradient:active {
+    transform: none;
+  }
+}

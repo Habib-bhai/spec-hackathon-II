@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import TaskList from '../../Components/TaskList/TaskList';
@@ -9,6 +9,9 @@ import { useTasks, useCreateTask, useUpdateTask, useDeleteTask } from '../../lib
 import { createTaskSchema, type CreateTaskSchema } from '../../lib/types/schemas';
 import type { Task, Priority, TaskStatus } from '../../lib/types';
 import styles from './Dashboard.module.css';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { useReducedMotion } from '@/lib/gsap/hooks/useReducedMotion';
+import { animationPresets, durations } from '@/lib/gsap/animations';
 
 /**
  * Dashboard Component
@@ -28,6 +31,31 @@ export default function Dashboard() {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  // GSAP refs for page entrance animation
+  const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  // Page entrance animation (T014)
+  useGSAP(
+    () => {
+      if (prefersReducedMotion) {
+        gsap.set('.dashboard-animate', { opacity: 1, y: 0 });
+        return;
+      }
+      gsap.from('.dashboard-animate', {
+        ...animationPresets.fadeInUp,
+        stagger: 0.1,
+        duration: durations.slow,
+      });
+    },
+    { scope: containerRef, dependencies: [prefersReducedMotion] }
+  );
+
+
+  // T041: Form ref for GSAP shake animation on validation errors
+  const titleInputRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
   // React Hook Form setup
   const {
     register,
@@ -43,6 +71,25 @@ export default function Dashboard() {
       tags: [],
     },
   });
+
+  // T041: GSAP shake animation on validation errors
+  const shakeInput = useCallback((element: HTMLElement | null) => {
+    if (!element || prefersReducedMotion) return;
+    gsap.to(element, {
+      keyframes: {
+        x: [-10, 10, -10, 10, 0],
+      },
+      duration: 0.4,
+      ease: 'power2.inOut',
+    });
+  }, [prefersReducedMotion]);
+
+  // Trigger shake when title has errors
+  useEffect(() => {
+    if (errors.title && titleInputRef.current) {
+      shakeInput(titleInputRef.current);
+    }
+  }, [errors.title, shakeInput]);
 
   // Fetch tasks using the API hook
   const { data: tasks = [], isLoading, error } = useTasks();
@@ -73,7 +120,13 @@ export default function Dashboard() {
   };
 
   const handleSaveEdit = async (taskId: string, data: Partial<Task>) => {
-    await updateTask.mutateAsync({ id: taskId, ...data });
+    // Convert tags from Tag[] to string[] (tag IDs) for the API
+    const updateData = {
+      id: taskId,
+      ...data,
+      tags: data.tags?.map((tag) => tag.id),
+    };
+    await updateTask.mutateAsync(updateData);
   };
 
   const handleDelete = async (taskId: string) => {
@@ -126,7 +179,7 @@ export default function Dashboard() {
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
               <h2 className={styles.formTitle}>Create New Task</h2>
 
-              <div className={styles.formField}>
+              <div className={styles.formField} ref={titleInputRef}>
                 <label htmlFor="title" className={styles.label}>
                   Title *
                 </label>
@@ -208,7 +261,11 @@ export default function Dashboard() {
                 disabled={isSubmitting}
                 className={styles.submitButton}
               >
-                {isSubmitting ? 'Creating...' : 'Add Task'}
+                {/* T043: Loading spinner animation */}
+                <span className={styles.buttonContent}>
+                  {isSubmitting && <span className={styles.spinner} />}
+                  {isSubmitting ? 'Creating...' : 'Add Task'}
+                </span>
               </button>
             </form>
           </div>

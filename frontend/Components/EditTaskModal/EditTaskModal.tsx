@@ -1,11 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { Task, Priority } from '../../lib/types';
 import styles from './EditTaskModal.module.css';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { useReducedMotion } from '@/lib/gsap/hooks/useReducedMotion';
+import { durations } from '@/lib/gsap/animations';
 
 const editTaskSchema = z.object({
   title: z
@@ -33,6 +36,12 @@ interface EditTaskModalProps {
 }
 
 export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTaskModalProps) {
+  // T022-T027: GSAP refs for modal animations
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+
   const {
     register,
     handleSubmit,
@@ -49,6 +58,66 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTas
     },
   });
 
+  // T022-T024: Create GSAP timeline for modal entrance animation
+  useGSAP(() => {
+    if (!overlayRef.current || !modalRef.current) return;
+
+    // T027: Skip animations if user prefers reduced motion
+    if (prefersReducedMotion) {
+      gsap.set(overlayRef.current, { opacity: 1 });
+      gsap.set(modalRef.current, { scale: 1, opacity: 1, y: 0 });
+      return;
+    }
+
+    // Set initial state
+    gsap.set(overlayRef.current, { opacity: 0 });
+    gsap.set(modalRef.current, { scale: 0.95, opacity: 0, y: 20 });
+
+    // T022: Create timeline for modal entrance
+    tlRef.current = gsap.timeline({ paused: false });
+
+    // T024: Animate backdrop opacity first
+    tlRef.current.to(overlayRef.current, {
+      opacity: 1,
+      duration: durations.fast,
+      ease: 'power2.out',
+    });
+
+    // T023: Animate modal content with scale + fade and back.out easing
+    tlRef.current.to(modalRef.current, {
+      scale: 1,
+      opacity: 1,
+      y: 0,
+      duration: durations.normal,
+      ease: 'back.out(1.7)',
+    }, '-=0.1');
+
+  }, { scope: overlayRef, dependencies: [isOpen, prefersReducedMotion] });
+
+  // T025: Handle animated close (reverse timeline on escape key, outside click)
+  const handleAnimatedClose = useCallback(() => {
+    if (prefersReducedMotion || !overlayRef.current || !modalRef.current) {
+      onClose();
+      return;
+    }
+
+    // Reverse the timeline with animations
+    gsap.to(modalRef.current, {
+      scale: 0.95,
+      opacity: 0,
+      y: 20,
+      duration: durations.fast,
+      ease: 'power2.in',
+    });
+    gsap.to(overlayRef.current, {
+      opacity: 0,
+      duration: durations.fast,
+      ease: 'power2.in',
+      delay: 0.05,
+      onComplete: onClose,
+    });
+  }, [onClose, prefersReducedMotion]);
+
   // Reset form when task changes
   useEffect(() => {
     reset({
@@ -60,10 +129,10 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTas
     });
   }, [task, reset]);
 
-  // Handle escape key
+  // T025: Handle escape key with animated close
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') handleAnimatedClose();
     };
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
@@ -73,7 +142,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTas
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleAnimatedClose]);
 
   const onSubmit = async (data: EditTaskFormData) => {
     try {
@@ -93,11 +162,11 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTas
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div ref={overlayRef} className={styles.overlay} onClick={handleAnimatedClose}>
+      <div ref={modalRef} className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>Edit Task</h2>
-          <button onClick={onClose} className={styles.closeButton} aria-label="Close">
+          <button onClick={handleAnimatedClose} className={styles.closeButton} aria-label="Close">
             &times;
           </button>
         </div>
@@ -180,7 +249,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }: EditTas
           <div className={styles.actions}>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleAnimatedClose}
               className={styles.cancelButton}
               disabled={isSubmitting}
             >
