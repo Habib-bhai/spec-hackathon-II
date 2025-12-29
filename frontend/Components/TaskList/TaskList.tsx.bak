@@ -1,14 +1,10 @@
 'use client';
 
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import TaskCard from '../TaskCard/TaskCard';
 import type { Task } from '../../lib/types';
 import styles from './TaskList.module.css';
-// T028: Import ScrollTrigger and GSAP for scroll-triggered animations
-import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
-import { useReducedMotion } from '@/lib/gsap/hooks/useReducedMotion';
-import { durations, staggerDelays } from '@/lib/gsap/animations';
 
 interface TaskListProps {
   tasks: Task[];
@@ -43,13 +39,6 @@ export default function TaskList({
   sortBy = 'createdAt',
 }: TaskListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // T032: Check for reduced motion preference
-  const prefersReducedMotion = useReducedMotion();
-
-  // Track which cards have been animated (for virtualized list)
-  const [animatedIndices, setAnimatedIndices] = useState<Set<number>>(new Set());
 
   // Filter and sort tasks
   const filteredTasks = useMemo(() => {
@@ -95,11 +84,6 @@ export default function TaskList({
     return result;
   }, [tasks, searchQuery, filterStatus, filterPriority, sortBy]);
 
-  // Reset animated indices when filters change
-  useEffect(() => {
-    setAnimatedIndices(new Set());
-  }, [searchQuery, filterStatus, filterPriority, sortBy]);
-
   // Set up virtualizer
   const virtualizer = useVirtualizer({
     count: filteredTasks.length,
@@ -107,80 +91,6 @@ export default function TaskList({
     estimateSize: () => 140, // Estimated height of TaskCard
     overscan: 5,
   });
-
-  // Get virtual items for animation tracking
-  const virtualItems = virtualizer.getVirtualItems();
-
-  // T029-T031: Animate cards as they become visible in the virtualizer
-  useEffect(() => {
-    if (prefersReducedMotion || loading) return;
-
-    const newIndices: number[] = [];
-
-    virtualItems.forEach((item, i) => {
-      if (!animatedIndices.has(item.index)) {
-        newIndices.push(item.index);
-        const element = document.querySelector(
-          `[data-task-index="${item.index}"]`
-        );
-
-        if (element) {
-          // T031: Set stagger timing to 50ms between consecutive cards per FR-009
-          gsap.fromTo(
-            element,
-            {
-              opacity: 0,
-              y: 30,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: durations.normal,
-              ease: 'power2.out',
-              // T031: 50ms stagger delay based on position in current batch
-              delay: i * staggerDelays.list,
-            }
-          );
-        }
-      }
-    });
-
-    if (newIndices.length > 0) {
-      setAnimatedIndices((prev) => {
-        const next = new Set(prev);
-        newIndices.forEach((idx) => next.add(idx));
-        return next;
-      });
-    }
-  }, [virtualItems, prefersReducedMotion, loading, animatedIndices]);
-
-  // T029: Initial scroll-triggered animation for container entrance
-  useGSAP(
-    () => {
-      if (prefersReducedMotion || loading || filteredTasks.length === 0) {
-        // T032: Skip animations when reduced motion is preferred
-        gsap.set(containerRef.current, { opacity: 1 });
-        return;
-      }
-
-      // T030: Configure ScrollTrigger with once: true to prevent re-animation
-      gsap.fromTo(
-        containerRef.current,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: durations.fast,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 90%',
-            once: true, // T030: Only animate once, no re-trigger on scroll back
-          },
-        }
-      );
-    },
-    { scope: containerRef, dependencies: [prefersReducedMotion, loading, filteredTasks.length] }
-  );
 
   // Empty state
   if (!loading && filteredTasks.length === 0) {
@@ -228,7 +138,7 @@ export default function TaskList({
   }
 
   return (
-    <div className={styles.container} ref={containerRef}>
+    <div className={styles.container}>
       <div ref={parentRef} className={styles.scrollContainer}>
         <div
           style={{
@@ -237,16 +147,12 @@ export default function TaskList({
             position: 'relative',
           }}
         >
-          {virtualItems.map((virtualItem) => {
+          {virtualizer.getVirtualItems().map((virtualItem) => {
             const task = filteredTasks[virtualItem.index];
-            // Initial opacity for animation - animated cards are fully visible
-            const isAnimated = animatedIndices.has(virtualItem.index);
-
             return (
               <div
                 key={virtualItem.key}
                 data-index={virtualItem.index}
-                data-task-index={virtualItem.index}
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -254,8 +160,6 @@ export default function TaskList({
                   width: '100%',
                   height: `${virtualItem.size}px`,
                   transform: `translateY(${virtualItem.start}px)`,
-                  // T032: Set initial state for animation (or visible if reduced motion)
-                  opacity: prefersReducedMotion || isAnimated ? 1 : 0,
                 }}
               >
                 <TaskCard

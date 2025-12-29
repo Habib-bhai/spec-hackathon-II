@@ -3,23 +3,24 @@
 
 /* Theme Colors - Consistent with auth pages */
 :global(:root) {
-  --task-card-bg: 250 20% 10%;
-  --task-card-border: 250 15% 20%;
-  --task-foreground: 250 10% 95%;
-  --task-muted: 250 10% 20%;
-  --task-accent: 15 85% 60%;
-  --task-accent-hover: 15 90% 65%;
-  --task-critical: 5 85% 60%;
-  --task-high: 10 85% 65%;
-  --task-medium: 45 90% 60%;
-  --task-low: 142 85% 55%;
-  --task-overdue: 0 85% 65%;
+  --task-card-bg: var(--color-background-secondary);
+  --task-card-border: var(--color-border-default);
+  --task-foreground: var(--color-text-primary);
+  --task-muted: var(--color-text-muted);
+  --task-accent: var(--color-accent-primary);
+  --task-accent-hover: #ff6b4a;
+  --task-critical: var(--color-priority-critical);
+  --task-high: var(--color-priority-high);
+  --task-medium: var(--color-priority-medium);
+  --task-low: var(--color-priority-low);
+  --task-overdue: var(--color-text-error);
 }
 
+/* T021: will-change hints for GPU-accelerated properties */
 .card {
   position: relative;
-  background: hsl(var(--task-card-bg));
-  border: 1px solid hsl(var(--task-card-border));
+  background: var(--task-card-bg);
+  border: 1px solid var(--task-card-border);
   border-radius: 1rem;
   overflow: hidden;
   transition:
@@ -27,17 +28,18 @@
     box-shadow 250ms ease,
     border-color 200ms ease;
   box-shadow:
-    0 2px 4px -1px hsl(var(--task-card-border) / 0.2),
-    0 1px 2px -2px hsl(var(--task-card-border) / 0.15);
+    0 2px 4px -1px rgba(0, 0, 0, 0.15),
+    0 1px 2px -2px rgba(0, 0, 0, 0.1);
+  will-change: transform, box-shadow;
 }
 
 .card:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 8px 16px -4px hsl(var(--task-card-border) / 0.3),
-    0 4px 8px -4px hsl(var(--task-card-border) / 0.2),
-    0 0 0 1px hsla(var(--task-accent) / 0.15);
-  border-color: hsla(var(--task-accent) / 0.3);
+    0 12px 24px -8px rgba(0, 0, 0, 0.35),
+    0 6px 12px -6px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(250, 69, 31, 0.15);
+  border-color: rgba(250, 69, 31, 0.3);
 }
 
 .card.completed {
@@ -46,33 +48,60 @@
 
 .card.completed .title {
   text-decoration: line-through;
-  color: hsl(var(--task-muted));
+  color: var(--task-muted);
 }
 
-/* Priority indicator bar */
+/* T019: Priority indicator bar - Enhanced with gradient coloring and glow effects */
 .priorityBar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  transition: background-color 300ms ease;
+  height: 4px;
+  transition:
+    height var(--duration-fast, 150ms) ease,
+    box-shadow var(--duration-fast, 150ms) ease;
+  will-change: height, box-shadow;
+}
+
+.card:hover .priorityBar {
+  height: 5px;
 }
 
 .priorityBar.priorityCritical {
-  background: linear-gradient(90deg, hsl(var(--task-critical)), transparent);
+  background: linear-gradient(90deg, var(--task-critical) 0%, var(--task-critical) 60%, transparent 100%);
+  box-shadow: 0 2px 12px var(--task-critical);
+}
+
+.card:hover .priorityBar.priorityCritical {
+  box-shadow: 0 4px 20px var(--task-critical);
 }
 
 .priorityBar.priorityHigh {
-  background: linear-gradient(90deg, hsl(var(--task-high)), transparent);
+  background: linear-gradient(90deg, var(--task-high) 0%, var(--task-high) 60%, transparent 100%);
+  box-shadow: 0 2px 10px var(--task-high);
+}
+
+.card:hover .priorityBar.priorityHigh {
+  box-shadow: 0 4px 18px var(--task-high);
 }
 
 .priorityBar.priorityMedium {
-  background: linear-gradient(90deg, hsl(var(--task-medium)), transparent);
+  background: linear-gradient(90deg, var(--task-medium) 0%, var(--task-medium) 60%, transparent 100%);
+  box-shadow: 0 2px 8px var(--task-medium);
+}
+
+.card:hover .priorityBar.priorityMedium {
+  box-shadow: 0 4px 16px var(--task-medium);
 }
 
 .priorityBar.priorityLow {
-  background: linear-gradient(90deg, hsl(var(--task-low)), transparent);
+  background: linear-gradient(90deg, var(--task-low) 0%, var(--task-low) 60%, transparent 100%);
+  box-shadow: 0 2px 6px var(--task-low);
+}
+
+.card:hover .priorityBar.priorityLow {
+  box-shadow: 0 4px 14px var(--task-low);
 }
 
 .content {
@@ -99,10 +128,10 @@
 }
 
 .title {
-  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 1.125rem;
   font-weight: 600;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
   margin: 0;
   line-height: 1.4;
   transition: color 200ms ease;
@@ -139,9 +168,9 @@
 }
 
 .priorityLabel {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.75rem;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
 }
 
 /* Actions */
@@ -160,71 +189,79 @@
   transform: translateX(0);
 }
 
+/* T020: Action button hover effects - enhanced scale and glow */
 .actionButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 0.5rem;
-  border: 1px solid hsl(var(--task-card-border));
-  background: hsl(var(--task-card-bg));
+  border: 1px solid var(--task-card-border);
+  background: var(--task-card-bg);
   cursor: pointer;
   font-size: 0.875rem;
   transition:
     background-color 150ms ease,
     border-color 150ms ease,
-    transform 150ms ease,
+    transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 150ms ease;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
+  will-change: transform, box-shadow;
 }
 
 .actionButton:hover {
-  background: hsl(var(--task-accent));
-  border-color: hsl(var(--task-accent));
-  color: hsl(var(--task-card-bg));
-  transform: scale(1.1);
-  box-shadow: 0 0 15px -3px hsla(var(--task-accent) / 0.5);
+  background: var(--task-accent);
+  border-color: var(--task-accent);
+  color: white;
+  transform: scale(1.15);
+  box-shadow:
+    0 0 20px rgba(250, 69, 31, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .actionButton:active {
-  transform: scale(1);
+  transform: scale(1.05);
 }
 
 .deleteButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 0.5rem;
-  border: 1px solid hsl(var(--task-overdue));
+  border: 1px solid var(--task-overdue);
   background: transparent;
   cursor: pointer;
   font-size: 0.875rem;
   transition:
     background-color 150ms ease,
     border-color 150ms ease,
-    transform 150ms ease;
-  color: hsl(var(--task-overdue));
+    transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 150ms ease;
+  color: var(--task-overdue);
+  will-change: transform, box-shadow;
 }
 
 .deleteButton:hover {
-  background: hsl(var(--task-overdue));
+  background: var(--task-overdue);
   color: white;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px -3px hsla(var(--task-overdue) / 0.5);
+  transform: scale(1.15);
+  box-shadow:
+    0 0 20px rgba(255, 77, 77, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .deleteButton:active {
-  transform: scale(1);
+  transform: scale(1.05);
 }
 
 /* Description */
 .description {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.9375rem;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
   margin: 0 0 1rem 0;
   line-height: 1.6;
   display: -webkit-box;
@@ -256,10 +293,10 @@
   background: hsla(var(--task-card-border) / 0.2);
   border: 1px solid hsla(var(--task-card-border) / 0.3);
   border-radius: 9999px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.75rem;
   font-weight: 500;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
   transition:
     background-color 200ms ease,
     border-color 200ms ease,
@@ -279,10 +316,10 @@
   padding: 0.25rem 0.625rem;
   background: hsla(var(--task-card-border) / 0.15);
   border-radius: 0.5rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-family-primary);
   font-size: 0.75rem;
   font-weight: 500;
-  color: hsl(var(--task-foreground));
+  color: var(--task-foreground);
   transition: color 200ms ease;
 }
 
@@ -313,10 +350,18 @@
   opacity: 1;
 }
 
-/* Responsive */
+/* Responsive - T035: Responsive adjustments with 44px touch targets */
 @media (max-width: 640px) {
+  .card {
+    border-radius: 0.75rem;
+  }
+
   .card:hover {
     transform: translateY(-2px);
+  }
+
+  .content {
+    padding: 1rem;
   }
 
   .title {
@@ -325,36 +370,104 @@
 
   .description {
     font-size: 0.875rem;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0.75rem;
   }
 
   .actions {
     opacity: 1;
     transform: translateX(0);
+    gap: 0.5rem;
+  }
+
+  /* T035: 44px touch targets for action buttons */
+  .actionButton,
+  .deleteButton {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1rem;
   }
 
   .footer {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .priorityBadge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  .tag {
+    padding: 0.1875rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  .deadline {
+    padding: 0.1875rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  .header {
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .titleWrapper {
+    gap: 0.5rem;
   }
 }
 
-/* Reduced motion */
+/* Extra small screens */
+@media (max-width: 375px) {
+  .content {
+    padding: 0.875rem;
+  }
+
+  .title {
+    font-size: 0.9375rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* T037: Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card:hover,
+  .actionButton,
   .actionButton:hover,
+  .deleteButton,
   .deleteButton:hover,
   .tag:hover,
   .priorityBadge,
-  .spotlight {
+  .spotlight,
+  .priorityBar {
     animation: none;
     transition: none;
     transform: none;
+    will-change: auto;
   }
 
   .card:hover {
     box-shadow:
-      0 8px 16px -4px hsl(var(--task-card-border) / 0.3),
-      0 4px 8px -4px hsl(var(--task-card-border) / 0.2);
+      0 8px 16px -4px rgba(0, 0, 0, 0.3),
+      0 4px 8px -4px rgba(0, 0, 0, 0.2);
+  }
+
+  .card:hover .priorityBar {
+    height: 4px;
   }
 }

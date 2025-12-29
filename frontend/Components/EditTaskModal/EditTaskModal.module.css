@@ -3,13 +3,14 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
+  background: var(--color-overlay);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 200ms ease;
+  z-index: var(--z-modal-backdrop);
+  will-change: opacity;
 }
 
 @keyframes fadeIn {
@@ -22,15 +23,15 @@
 }
 
 .modal {
-  background: hsl(250 20% 12%);
-  border: 1px solid hsl(250 15% 25%);
-  border-radius: 1rem;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-xl);
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  animation: slideUp 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-xl);
+  will-change: transform, opacity;
 }
 
 @keyframes slideUp {
@@ -49,7 +50,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid hsl(250 15% 20%);
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .title {
@@ -63,7 +64,7 @@
   background: transparent;
   border: none;
   font-size: 1.5rem;
-  color: hsl(250 10% 60%);
+  color: var(--color-text-muted);
   cursor: pointer;
   padding: 0.25rem;
   line-height: 1;
@@ -102,14 +103,14 @@
 .label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: hsl(250 10% 80%);
+  color: var(--color-text-secondary);
 }
 
 .input,
 .textarea,
 .select {
-  background: hsl(250 20% 8%);
-  border: 1px solid hsl(250 15% 25%);
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-default);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -154,7 +155,7 @@
 }
 
 .select option {
-  background: hsl(250 20% 12%);
+  background: var(--color-background-secondary);
   color: white;
 }
 
@@ -164,7 +165,7 @@
   justify-content: flex-end;
   margin-top: 0.5rem;
   padding-top: 1rem;
-  border-top: 1px solid hsl(250 15% 20%);
+  border-top: 1px solid var(--color-border-default);
 }
 
 .cancelButton {
@@ -174,13 +175,13 @@
   font-weight: 500;
   cursor: pointer;
   background: transparent;
-  border: 1px solid hsl(250 15% 30%);
-  color: hsl(250 10% 70%);
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-muted);
   transition: all 150ms ease;
 }
 
 .cancelButton:hover:not(:disabled) {
-  background: hsl(250 15% 20%);
+  background: var(--color-background-tertiary);
   color: white;
 }
 
@@ -205,4 +206,116 @@
 .cancelButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* T036: Mobile-friendly modal sizing */
+@media (max-width: 640px) {
+  .modal {
+    width: 95%;
+    max-width: none;
+    max-height: 95vh;
+    margin: 0.5rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .closeButton {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .field {
+    gap: 0.375rem;
+  }
+
+  .label {
+    font-size: 0.8125rem;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    min-height: 44px;
+    padding: 0.625rem 0.875rem;
+    font-size: 16px; /* Prevent zoom on iOS */
+    border-radius: 0.375rem;
+  }
+
+  .textarea {
+    min-height: 100px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    justify-content: center;
+  }
+
+  .saveButton {
+    order: -1; /* Primary action first on mobile */
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+  .modal {
+    width: 100%;
+    margin: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 90vh;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .header,
+  .form {
+    padding: 0.875rem;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}
+
+/* T037: Reduced motion for modal */
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .overlay,
+  .saveButton:hover,
+  .cancelButton:hover,
+  .closeButton:hover {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
 }

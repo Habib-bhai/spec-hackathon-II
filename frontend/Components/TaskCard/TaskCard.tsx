@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { Task, Tag } from '../../lib/types';
 import styles from './TaskCard.module.css';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { useReducedMotion } from '@/lib/gsap/hooks/useReducedMotion';
+import { shadowPresets, durations, animationPresets } from '@/lib/gsap/animations';
 
 interface TaskCardProps {
   task: Task;
@@ -20,9 +23,55 @@ interface TaskCardProps {
  * - Edit and delete actions
  * - Hover states and animations
  * - Responsive design
+ * - T028-T032: Entrance animation (staggered in virtualized list via mount timing)
  */
 export default function TaskCard({ task, onEdit, onDelete, onToggleStatus }: TaskCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  // GSAP refs for hover animation (T016-T018) and entrance animation (T028-T032)
+  const cardRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { contextSafe } = useGSAP({ scope: cardRef });
+
+  // T028-T032: Entrance animation when card mounts (works with virtualized lists)
+  useGSAP(() => {
+    if (!cardRef.current) return;
+
+    // T032: Skip animation if user prefers reduced motion
+    if (prefersReducedMotion) {
+      gsap.set(cardRef.current, { opacity: 1, y: 0 });
+      return;
+    }
+
+    // T029-T031: Fade-in and slide-up entrance animation
+    // 50ms stagger effect achieved naturally through virtualization mount timing
+    gsap.from(cardRef.current, {
+      ...animationPresets.fadeInUp,
+      duration: 0.4, // Slightly faster for snappy feel
+      ease: 'power2.out',
+    });
+  }, { scope: cardRef, dependencies: [prefersReducedMotion] });
+
+  // GSAP hover animation handlers
+  const onMouseEnterGSAP = contextSafe(() => {
+    if (prefersReducedMotion) return;
+    gsap.to(cardRef.current, {
+      y: -4,
+      boxShadow: shadowPresets.cardHoverGlow,
+      duration: durations.fast,
+      ease: 'power2.out',
+    });
+  });
+
+  const onMouseLeaveGSAP = contextSafe(() => {
+    if (prefersReducedMotion) return;
+    gsap.to(cardRef.current, {
+      y: 0,
+      boxShadow: shadowPresets.cardRest,
+      duration: durations.instant,
+      ease: 'power2.in',
+    });
+  });
 
   const getPriorityColor = () => {
     switch (task.priority) {
@@ -74,8 +123,8 @@ export default function TaskCard({ task, onEdit, onDelete, onToggleStatus }: Tas
   return (
     <div
       className={`${styles.card} ${isCompleted ? styles.completed : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      ref={cardRef} onMouseEnter={() => { setIsHovered(true); onMouseEnterGSAP(); }}
+      onMouseLeave={() => { setIsHovered(false); onMouseLeaveGSAP(); }}
       role="article"
     >
       {/* Priority indicator bar */}

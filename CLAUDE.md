@@ -210,8 +210,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
 
 ## Recent Changes
+- 005-frontend-redesign: Added TypeScript 5.x (strict mode)
 - 004-full-stack-auth: Added PostgreSQL via Neon DB (connection pooling enabled)
 - 003-backend-implementation: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
 ## Active Technologies
-- PostgreSQL via Neon DB (connection pooling enabled) (004-full-stack-auth)
+- TypeScript 5.x (strict mode) (005-frontend-redesign)
+- N/A (frontend-only feature) (005-frontend-redesign)
